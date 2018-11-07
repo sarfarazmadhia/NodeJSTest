@@ -24,21 +24,21 @@ restService.post("/echo", function(req, res) {
       ? req.body.queryResult.parameters.echoText
       : "Seems like some problem. Please Speak again.";
   return res.json({
-    "payload": {
-      "google": {
-        "expectUserResponse": true,
-        "richResponse": {
-          "items": [
-            {
-              "simpleResponse": {
-                "textToSpeech": "this is a simple response"
-              }
+  "payload": {
+    "google": {
+      "expectUserResponse": true,
+      "richResponse": {
+        "items": [
+          {
+            "simpleResponse": {
+              "textToSpeech": speech
             }
-          ]
-        }
+          }
+        ]
       }
     }
-  });
+  }
+});
 });
 
 restService.post("/audio", function(req, res) {
