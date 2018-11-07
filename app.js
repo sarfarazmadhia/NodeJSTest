@@ -14,6 +14,7 @@ restService.use(
 restService.use(bodyParser.json());
 
 restService.post("/echo", function(req, res) {
+    console.log('in echo service:');
     console.log('request: %s', req);
     console.log('body: %s', req.body);
   var speech =
