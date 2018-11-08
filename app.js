@@ -2,6 +2,11 @@
 
 const express = require("express");
 const bodyParser = require("body-parser");
+const request = require("request");
+
+let apiKey = '27b8e380614c3703e2d232e0d98d25d4';
+let city = 'Mumbai';
+let url = `http://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`
 
 const restService = express();
 
@@ -13,7 +18,7 @@ restService.use(
 
 restService.use(bodyParser.json());
 
-restService.post("/echo", function(req, res) {
+restService.post("/apirequest", function(req, res) {
     console.log('in echo service:');
     console.log('request: %s', req);
     console.log('body: %s', req.body);
@@ -39,6 +44,46 @@ restService.post("/echo", function(req, res) {
     }
   }
 });
+});
+
+restService.post("/echo", function(req, res) {
+    console.log('in api requst service:');
+    console.log('request: %s', ""+req);
+    console.log('body: %s', ""+req.body);
+  var speech =
+    req.body.queryResult &&
+    req.body.queryResult.parameters &&
+    req.body.queryResult.parameters.echoText
+      ? req.body.queryResult.parameters.echoText
+      : "Seems like some problem. Please Speak again.";
+
+
+      request(url, function (err, response, body) {
+        if(err){
+          console.log('error:', error);
+        } else {
+          let weather = JSON.parse(body)
+          let message = `It's ${weather.main.temp} degrees in ${weather.name}!`;
+          console.log(message);
+
+          return res.json({
+            "payload": {
+              "google": {
+                "expectUserResponse": true,
+                "richResponse": {
+                  "items": [
+                    {
+                      "simpleResponse": {
+                        "textToSpeech": message
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          });
+        }
+      });
 });
 
 restService.post("/audio", function(req, res) {
