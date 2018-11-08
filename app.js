@@ -58,6 +58,7 @@ restService.post("/echo", function(req, res) {
       : "Seems like some problem. Please Speak again.";
 
       let url = `http://api.openweathermap.org/data/2.5/weather?q=${speech}&units=metric&appid=${apiKey}`
+      console.log(`service url is: ${url}`)
       request(url, function (err, response, body) {
         if(err){
           console.log('error:', error);
