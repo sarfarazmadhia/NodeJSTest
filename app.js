@@ -6,7 +6,7 @@ const request = require("request");
 
 let apiKey = '27b8e380614c3703e2d232e0d98d25d4';
 let city = 'Mumbai';
-let url = `http://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`
+
 
 const restService = express();
 
@@ -57,13 +57,13 @@ restService.post("/echo", function(req, res) {
       ? req.body.queryResult.parameters.echoText
       : "Seems like some problem. Please Speak again.";
 
-
+      let url = `http://api.openweathermap.org/data/2.5/weather?q=${speech}&units=metric&appid=${apiKey}`
       request(url, function (err, response, body) {
         if(err){
           console.log('error:', error);
         } else {
           let weather = JSON.parse(body)
-          let message = `It's ${weather.main.temp} degrees in ${weather.name}!`;
+          let message = `It's ${weather.main.temp} degrees celcius in ${weather.name}!`;
           console.log(message);
 
           return res.json({
