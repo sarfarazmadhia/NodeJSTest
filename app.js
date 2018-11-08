@@ -62,8 +62,10 @@ restService.post("/echo", function(req, res) {
         if(err){
           console.log('error:', error);
         } else {
+          console.log(`Service response is ${body}`);
           let weather = JSON.parse(body)
           let message = `It's ${weather.main.temp} degrees celcius in ${weather.name}!`;
+          
           console.log(message);
 
           return res.json({
